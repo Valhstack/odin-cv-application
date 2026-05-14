@@ -9,21 +9,22 @@ export function Main() {
         phoneNumber: ''
     })
 
-    const [educations, setEducations] = useState([
-        /*{
-            id: crypto.randomUUID(),
-            schoolName: '',
-            studyTitle: '',
-            startOfStudy: '',
-            endOfStudy: ''
-        }*/
-    ])
+    const [educations, setEducations] = useState([]);
 
     const [educationInfo, setEducationInfo] = useState({
         schoolName: '',
         studyTitle: '',
         startOfStudy: '',
         endOfStudy: ''
+    });
+
+    const [works, setWorks] = useState([]);
+    const [workInfo, setWorkInfo] = useState({
+        companyName: '',
+        positionTitle: '',
+        responsibilities: '',
+        startOfWork: '',
+        endOfWork: ''
     })
 
     const handleGeneralInfoChange = (e) => {
@@ -61,10 +62,37 @@ export function Main() {
         });
     };
 
+    const handleWorkInfoChange = (e) => {
+        const { name, value } = e.target;
+
+        setWorkInfo(prev => ({
+            ...prev,
+            [name]: value
+        }))
+    }
+
+    const handleAddWorkBtn = () => {
+        setWorks(prev => [
+            ...prev,
+            {
+                id: crypto.randomUUID(),
+                ...workInfo
+            }
+        ]);
+
+        setWorkInfo({
+            companyName: '',
+            positionTitle: '',
+            responsibilities: '',
+            startOfWork: '',
+            endOfWork: ''
+        });
+    };
+
     return (
         <main id='main'>
-            <Sidebar generalInfo={generalInfo} onGeneralInfoChange={handleGeneralInfoChange} educationInfo={educationInfo} onEducationInfoChange={handleEducationInfoChange} onAddEducationBtnClick={handleAddEducationBtn} />
-            <Preview generalInfo={generalInfo} educations={educations} />
+            <Sidebar generalInfo={generalInfo} onGeneralInfoChange={handleGeneralInfoChange} educationInfo={educationInfo} onEducationInfoChange={handleEducationInfoChange} onAddEducationBtnClick={handleAddEducationBtn} workInfo={workInfo} onWorkInfoChange={handleWorkInfoChange} onAddWorkBtnClick={handleAddWorkBtn} />
+            <Preview generalInfo={generalInfo} educations={educations} works={works} />
         </main>
     )
 }
